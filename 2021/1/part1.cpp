@@ -1,18 +1,19 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
+
+#include "FileHandler.hpp"
 
 int main(int argc, char const *argv[])
 {
     std::string filePath = "input.txt";
     std::vector<uint32_t> fileInputVector;
 
-    std::ifstream file(filePath);
-    if(file.is_open())
+    FileHandler file(filePath);
+    if(file.IsOpen())
     {
         // Read the file
         std::string line;
-        while(std::getline(file, line))
+        while(file.GetLine(line))
         {
             fileInputVector.push_back(std::stoul(line));
         }
@@ -33,6 +34,6 @@ int main(int argc, char const *argv[])
         std::cerr<<"File cannot be opened"<<std::endl;
         return 1;
     }
-    file.close();
+    file.Close();
     return 0;
 }
