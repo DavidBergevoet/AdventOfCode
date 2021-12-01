@@ -4,7 +4,7 @@
 
 int main(int argc, char const *argv[])
 {
-    std::string filePath = "../input.txt";
+    std::string filePath = "input.txt";
     std::vector<uint32_t> fileInputVector;
 
     std::ifstream file(filePath);
