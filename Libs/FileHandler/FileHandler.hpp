@@ -2,6 +2,7 @@
 #define FILEHANDLER_HPP_
 
 #include <fstream>
+#include <vector>
 
 class FileHandler
 {
@@ -11,6 +12,8 @@ public:
 
     bool GetLine(std::string& rLine);
     bool IsOpen()const;
+
+    bool GetLineSplit(std::vector<std::string>& rLine, const std::string& rSeperator = " ");
 
     void Close();
 
