@@ -36,7 +36,9 @@ bool FileHandler::GetLineSplit(std::vector<std::string>& rLine, const std::strin
     {
         part = line.substr(0, position);
         line.erase(0, position + rSeperator.length());
-        rLine.push_back(part);
+        if(part != "")
+            rLine.push_back(part);
     }
-    rLine.push_back(line);
+    if(line != "")
+        rLine.push_back(line);
 }
