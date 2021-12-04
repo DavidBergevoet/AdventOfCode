@@ -46,7 +46,49 @@ int main(int argc, char const *argv[])
     tempBoard.SetBoard(tempMatrix);
     bingoBoards.push_back(tempBoard);
 
+    std::cout<<"Total bingo boards: "<<bingoBoards.size()<<std::endl;
 
+
+    // Check bingo boards
+    std::vector<uint32_t> returnValues;
+    bool lastBingoBoardBingo = false;
+    for(uint32_t value : numbersList)
+    {
+        for(size_t i = 0; i < bingoBoards.size(); ++i)
+        {
+            bingoBoards[i].MarkValue(value);
+            if(bingoBoards[i].CheckBingo(returnValues))
+            {
+                if(bingoBoards.size() == 1)
+                {
+                    std::cout<<"Last bingo board has bingo!"<<std::endl;
+                    lastBingoBoardBingo = true;
+                }
+                else
+                {
+                    bingoBoards.erase(bingoBoards.begin() + i);
+                    --i;
+                }
+            }
+        }
+        if(lastBingoBoardBingo)
+            break;
+    }
+
+    std::cout<<"Bingo boards size: "<<bingoBoards.size()<<std::endl;
+
+    std::vector<uint32_t> unmarkedNumbers = bingoBoards[0].GetUnmarkedNumbers();
+    uint32_t unmarkedNumbersSum = 0;
+    for(uint32_t value : unmarkedNumbers)
+    {
+        unmarkedNumbersSum += value;
+    }
+
+    std::vector<uint32_t> markedNumbers = bingoBoards[0].GetMarkedValues();
+    uint32_t lastMarkedNumber = markedNumbers[markedNumbers.size() - 1];
+    std::cout<<"Last marked number: "<<lastMarkedNumber<<std::endl;
+    std::cout<<"Unmarked numbers sum: "<<unmarkedNumbersSum<<std::endl;
+    std::cout<<"Multiplied: "<<unmarkedNumbersSum * lastMarkedNumber<<std::endl;
     
     return 0;
 }
