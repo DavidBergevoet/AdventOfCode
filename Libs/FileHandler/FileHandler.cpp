@@ -41,4 +41,5 @@ bool FileHandler::GetLineSplit(std::vector<std::string>& rLine, const std::strin
     }
     if(line != "")
         rLine.push_back(line);
+    return true;
 }
