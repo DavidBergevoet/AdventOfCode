@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 
+#include "Matrix.hpp"
+
 struct Point
 {
     uint32_t x = 0;
@@ -25,7 +27,7 @@ public:
 private:
     uint32_t m_maxX;
     uint32_t m_maxY;
-    std::vector<std::vector<uint32_t>> m_map; // [ROW][COLUMN]
+    Matrix<uint32_t> m_map;
 };
 
 #endif // MAP_HPP_

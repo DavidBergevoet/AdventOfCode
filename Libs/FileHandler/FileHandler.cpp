@@ -7,7 +7,7 @@ FileHandler::FileHandler(const std::string& rFilePath): m_file(rFilePath)
 bool FileHandler::GetLine(std::string& rLine)
 {
     if(!IsOpen())
-        return false;
+        throw std::runtime_error("File is not open!");
     
     return std::getline(m_file, rLine) ? true : false;
 }

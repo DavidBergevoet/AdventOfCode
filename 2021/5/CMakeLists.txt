@@ -14,4 +14,6 @@ add_executable(${PROJECT_NAME}_Part2
 )
 
 target_link_libraries (${PROJECT_NAME}_Part1 LINK_PUBLIC FileHandler)
+target_link_libraries (${PROJECT_NAME}_Part1 LINK_PUBLIC Matrix)
 target_link_libraries (${PROJECT_NAME}_Part2 LINK_PUBLIC FileHandler)
+target_link_libraries (${PROJECT_NAME}_Part2 LINK_PUBLIC Matrix)
