@@ -14,6 +14,7 @@ public:
     bool IsOpen()const;
 
     bool GetLineSplit(std::vector<std::string>& rLine, const std::string& rSeperator = " ");
+    bool GetLineSplit(std::vector<uint32_t>& rLine, const std::string& rSeperator = " ");
 
     void Close();
 

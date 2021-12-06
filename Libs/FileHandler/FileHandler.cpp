@@ -43,3 +43,24 @@ bool FileHandler::GetLineSplit(std::vector<std::string>& rLine, const std::strin
         rLine.push_back(line);
     return true;
 }
+
+bool FileHandler::GetLineSplit(std::vector<uint32_t>& rLine, const std::string& rSeperator /*= " "*/)
+{
+    std::string line;
+    rLine.clear();
+    if(!GetLine(line))
+        return false;
+
+    size_t position = 0;
+    std::string part;
+    while((position = line.find(rSeperator)) != std::string::npos)
+    {
+        part = line.substr(0, position);
+        line.erase(0, position + rSeperator.length());
+        if(part != "")
+            rLine.push_back(std::stoul(part));
+    }
+    if(line != "")
+        rLine.push_back(std::stoul(line));
+    return true;
+}
