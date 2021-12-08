@@ -64,3 +64,20 @@ bool FileHandler::GetLineSplit(std::vector<uint32_t>& rLine, const std::string& 
         rLine.push_back(std::stoul(line));
     return true;
 }
+
+std::vector<std::string> FileHandler::SplitString(const std::string& rInput, const std::string& rSeperator)
+{
+    std::vector<std::string> returnVector;
+    size_t pos = 0;
+    std::string part, inputCopy = rInput;
+    while((pos = inputCopy.find(rSeperator)) != std::string::npos)
+    {
+        part = inputCopy.substr(0, pos);
+        inputCopy.erase(0, pos + rSeperator.length());
+        returnVector.push_back(part);
+    }
+    if(inputCopy != "")
+        returnVector.push_back(inputCopy);
+    
+    return returnVector;
+}

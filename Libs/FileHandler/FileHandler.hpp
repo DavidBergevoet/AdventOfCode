@@ -18,6 +18,8 @@ public:
 
     void Close();
 
+    static std::vector<std::string> SplitString(const std::string& rInput, const std::string& rSeperator);
+
 private:
     std::fstream m_file;
 };
