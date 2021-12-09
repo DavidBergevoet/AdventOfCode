@@ -27,8 +27,13 @@ public:
     size_t GetRows() const;
     size_t GetColumns() const;
 
+    // Setters
+    bool SetColumns(size_t colums);
+
     // Other functions
     void Resize(size_t rows, size_t columns);
+
+    bool AddRow(const std::vector<T>& rNewRow);
 
     std::string ToString() const;
 

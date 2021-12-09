@@ -87,6 +87,17 @@ size_t Matrix<T>::GetColumns() const
 }
 
 template<typename T>
+bool Matrix<T>::SetColumns(size_t columns)
+{
+    if(m_matrix.size() == 0)
+    {
+        m_columns = columns;
+        return true;
+    }
+    return false;
+}
+
+template<typename T>
 void Matrix<T>::Resize(size_t rows, size_t columns)
 {
     m_matrix.resize(rows);
@@ -96,4 +107,16 @@ void Matrix<T>::Resize(size_t rows, size_t columns)
     }
     m_rows = rows;
     m_columns = columns;
+}
+
+template<typename T>
+bool Matrix<T>::AddRow(const std::vector<T>& rNewRow)
+{
+    if(rNewRow.size() == m_columns)
+    {
+        m_matrix.push_back(rNewRow);
+        m_rows++;
+        return true;
+    }
+    return false;
 }
