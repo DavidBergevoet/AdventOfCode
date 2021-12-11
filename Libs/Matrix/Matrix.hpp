@@ -5,10 +5,14 @@
 #include <sstream>
 #include <vector>
 
+
+/*
+ * NOTE:
+ * T must have the '<<' operator
+ */
 template<typename T>
 class Matrix
 {
-    static_assert(std::is_arithmetic<T>::value, "Value T must be arithmetic");
 public:
     Matrix(size_t rows = 0, size_t columns = 0);
 
