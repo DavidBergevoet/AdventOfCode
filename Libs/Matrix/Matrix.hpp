@@ -47,6 +47,9 @@ private:
     std::vector<std::vector<T>> m_matrix;
 };
 
+template<typename T>
+std::ostream& operator<<(std::ostream& rOs, const Matrix<T>& rMatrix);
+
 #include "Matrix.tpp"
 
 #endif // MATRIX_HPP_

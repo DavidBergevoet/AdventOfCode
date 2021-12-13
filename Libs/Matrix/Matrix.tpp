@@ -8,6 +8,13 @@ Matrix<T>::Matrix(size_t rows, size_t columns) : m_rows(rows), m_columns(columns
     }
 }
 
+template <typename T>
+std::ostream& operator<<(std::ostream& rOs, const Matrix<T>& rMatrix)
+{
+    rOs << rMatrix.ToString();
+    return rOs;
+}
+
 template<typename T>
 std::string Matrix<T>::ToString() const
 {
