@@ -18,4 +18,5 @@ Advent of code solutions
 | [Day 8](https://adventofcode.com/2021/day/8) | ⭐ | ⭐ |
 | [Day 9](https://adventofcode.com/2021/day/9) | ⭐ | ⭐ |
 | [Day 10](https://adventofcode.com/2021/day/10) | ⭐ | ⭐ |
+| [Day 11](https://adventofcode.com/2021/day/11) | ⭐ | ⭐ |
 <!--- advent_readme_stars table --->
