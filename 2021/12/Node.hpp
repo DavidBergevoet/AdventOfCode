@@ -15,6 +15,15 @@ public:
     {
     }
 
+    ~Node()
+    {
+        while(m_adjacentNodes.size() != 0)
+        {
+            m_adjacentNodes[0]->RemoveAdjacent(this);
+            m_adjacentNodes.erase(m_adjacentNodes.begin());
+        }
+    }
+
     void AddAdjacent(Node* pNode)
     {
         if(!IsAdjacent(pNode))
@@ -37,6 +46,17 @@ public:
     const std::vector<Node*> GetAdjacent() const
     {
         return m_adjacentNodes;
+    }
+
+    void RemoveAdjacent(Node* pNode)
+    {
+        for(size_t i = 0; i < m_adjacentNodes.size(); ++i)
+        {
+            if(m_adjacentNodes[i] == pNode)
+            {
+                m_adjacentNodes.erase(m_adjacentNodes.begin() + i);
+            }
+        }
     }
 
     bool IsAdjacent(const Node* pNode)

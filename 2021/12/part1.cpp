@@ -5,19 +5,21 @@
 
 std::vector<Node> graph;
 
-void ResetVisited()
-{
-    for(Node& rNode : graph)
-    {
-        rNode.m_visited = false;
-    }
-}
-
 bool IsInPath(const Node& rNode, const std::vector<Node>& rPath)
 {
     for(const Node& rPathNode : rPath)
     {
         if(rPathNode.GetSymbol() == rNode.GetSymbol())
+            return true;
+    }
+    return false;
+}
+
+bool PathContainsSmall(const std::vector<Node>& rPath)
+{
+    for(const Node& rPathNode : rPath)
+    {
+        if(!rPathNode.GetBigNode() && rPathNode.GetSymbol() != "start")
             return true;
     }
     return false;
@@ -47,20 +49,20 @@ std::vector<std::vector<Node>> FindPaths()
     std::vector<std::vector<Node>> totalPaths;
     std::vector<Node> path;
 
-    FindPathInternal(&graph[0], &graph[graph.size()-1], path, totalPaths);
+    Node* beginNode = nullptr;
+    Node* endNode = nullptr;
 
-
-    // print the path
-    std::cout<<"Paths: "<<totalPaths.size()<<std::endl;
-    for(const std::vector<Node>& rPath : totalPaths)
+    for(Node& node : graph)
     {
-        std::cout<<"\tPath: "<<rPath.size()<<std::endl<<"\t\t";
-        for(const Node& rNode : rPath)
-        {
-            std::cout<<rNode.GetSymbol()<<" ";
-        }
-        std::cout<<"\n";
+        if(node.GetSymbol() == "start")
+            beginNode = &node;
+        if(node.GetSymbol() == "end")
+            endNode = &node;
     }
+
+    FindPathInternal(beginNode, endNode, path, totalPaths);
+
+    return totalPaths;
 }
 
 int main(int argc, char const *argv[])
@@ -112,13 +114,26 @@ int main(int argc, char const *argv[])
     }
 
     // Print the graph
-    std::cout<<"Nodes"<<std::endl;
-    for(const Node& rNode : graph)
-    {
-        std::cout<<rNode.ToString();
-    }
+    // std::cout<<"Nodes"<<std::endl;
+    // for(const Node& rNode : graph)
+    // {
+    //     std::cout<<rNode.ToString();
+    // }
 
-    FindPaths();
+    auto paths = FindPaths();
+
+    // print the path
+    // for(const std::vector<Node>& rPath : paths)
+    // {
+    //     std::cout<<"\tPath: "<<rPath.size()<<std::endl<<"\t\t";
+    //     for(const Node& rNode : rPath)
+    //     {
+    //         std::cout<<rNode.GetSymbol()<<" ";
+    //     }
+    //     std::cout<<"\n";
+    // }
+
+    std::cout<<"Paths: "<<paths.size()<<std::endl;
     
     return 0;
 }
