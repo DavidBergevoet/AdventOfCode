@@ -3,12 +3,15 @@
 
 #include <iostream>
 
-class Node
+class Node // Add a destructor which will remove this node from all adjacent nodes. This will remove the seg fault
 {
 public:
+    bool m_visited;
+
     Node(const std::string& rNodeSymbol, bool bigNode) 
     : m_symbol(rNodeSymbol)
     , m_bigNode(bigNode)
+    , m_visited(false)
     {
     }
 
@@ -26,6 +29,16 @@ public:
         return m_symbol;
     }
 
+    bool GetBigNode() const
+    {
+        return m_bigNode;
+    }
+
+    const std::vector<Node*> GetAdjacent() const
+    {
+        return m_adjacentNodes;
+    }
+
     bool IsAdjacent(const Node* pNode)
     {
         for(const Node* pCurrentNode : m_adjacentNodes)
@@ -39,10 +52,10 @@ public:
     std::string ToString() const
     {
         std::stringstream returnString;
-        returnString << "Node: "<<m_symbol<<" ("<<m_bigNode<<")\n";
+        returnString << "Node: "<<m_symbol<<" ("<<m_bigNode<<")"<<"["<<m_visited<<"]\n";
         for(const Node* pNode : m_adjacentNodes)
         {
-            returnString << "\t"<<pNode->m_symbol<<"("<<pNode->m_bigNode<<")\n";
+            returnString << "\t"<<pNode->m_symbol<<"("<<pNode->m_bigNode<<")"<<"["<<m_visited<<"]\n";
         }
         return returnString.str();
     }
