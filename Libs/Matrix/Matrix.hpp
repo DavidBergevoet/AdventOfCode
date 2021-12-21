@@ -5,6 +5,7 @@
 #include <sstream>
 #include <vector>
 
+typedef std::pair<uint32_t, uint32_t> Point_t;
 
 /*
  * NOTE:
@@ -38,6 +39,8 @@ public:
     void Resize(size_t rows, size_t columns);
 
     bool AddRow(const std::vector<T>& rNewRow);
+
+    std::vector<Point_t> GetAdjacentPoints(const Point_t& rPoint, bool diagonal) const;
 
     std::string ToString() const;
 
