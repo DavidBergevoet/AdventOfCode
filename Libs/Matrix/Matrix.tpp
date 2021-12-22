@@ -228,3 +228,56 @@ std::vector<Point_t> Matrix<T>::GetAdjacentPoints(const Point_t& rPoint, bool di
     }
     return adjacent;
 }
+
+template<typename T>
+std::vector<Point_t> Matrix<T>::GetDiagonalPoints(const Point_t& rBeginPoint, bool rightToLeft, bool downToUp) const
+{
+    if(rBeginPoint.first >= m_rows || rBeginPoint.second >= m_columns)
+        throw std::invalid_argument("Begin point out of range(" + std::to_string(rBeginPoint.first)+","+std::to_string(rBeginPoint.second)+")");
+
+    std::vector<Point_t> diagonalPoints { rBeginPoint };
+    Point_t currentPoint = rBeginPoint;
+    if(rightToLeft)
+    {
+        if(downToUp)
+        {
+            while(currentPoint.first != 0 && currentPoint.second != 0)
+            {
+                currentPoint.first--;
+                currentPoint.second--;
+                diagonalPoints.push_back(currentPoint);
+            }
+        }
+        else
+        {
+            while(currentPoint.first != m_rows - 1 && currentPoint.second != 0)
+            {
+                currentPoint.first++;
+                currentPoint.second--;
+                diagonalPoints.push_back(currentPoint);
+            }
+        }
+    }
+    else
+    {
+        if(downToUp)
+        {
+            while(currentPoint.first != 0 && currentPoint.second != m_columns - 1)
+            {
+                currentPoint.first--;
+                currentPoint.second++;
+                diagonalPoints.push_back(currentPoint);
+            }
+        }
+        else
+        {
+            while(currentPoint.first != m_rows - 1 && currentPoint.second != m_columns - 1)
+            {
+                currentPoint.first++;
+                currentPoint.second++;
+                diagonalPoints.push_back(currentPoint);
+            }
+        }
+    }
+    return diagonalPoints;
+}

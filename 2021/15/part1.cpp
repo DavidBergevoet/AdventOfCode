@@ -59,43 +59,39 @@ int main(int argc, char const *argv[])
 
     // std::cout<<field<<std::endl;
 
-    std::vector<Point_t> indices{std::pair<uint32_t,uint32_t>(0,0)};
-    field[0][0].m_reachedSteps=0;
-    std::vector<Point_t> newIndices;
+    std::vector<Point_t> indices { Point_t(0, 0) };
+    field[0][0].m_reachedSteps = 0;
+    field[0][0].m_visited = true;
+    std::vector<Point_t> diagonal;
 
-    uint32_t count = 0;
-
-    while(indices.size() != 0)
+    uint32_t currentX = 1;
+    uint32_t currentY = 0;
+    while(currentY < field.GetRows())
     {
-        std::cout<<count++<<std::endl;
-        for(const auto& index : indices)
+        diagonal = field.GetDiagonalPoints(Point_t(currentY, currentX), true, false);
+        for(const Point_t& point : diagonal)
         {
-            field[index.first][index.second].m_visited = true;
-            std::vector<Point_t> adjacent = field.GetAdjacentPoints(index, false);
-            for(const auto& point : adjacent)
+            field[point.first][point.second].m_visited = true;
+            std::vector<Point_t> adjacents = field.GetAdjacentPoints(point, false);
+            for(const Point_t& adjacent : adjacents)
             {
-                if(field[point.first][point.second].m_reachedSteps > 
-                    field[index.first][index.second].m_reachedSteps + field[point.first][point.second].m_weight)
+                if(field[adjacent.first][adjacent.second].m_visited)
                 {
-                    field[point.first][point.second].m_reachedSteps = field[index.first][index.second].m_reachedSteps + field[point.first][point.second].m_weight;
+                    if(field[point.first][point.second].m_reachedSteps > 
+                        field[adjacent.first][adjacent.second].m_reachedSteps + field[point.first][point.second].m_weight)
+                    {
+                        field[point.first][point.second].m_reachedSteps = field[adjacent.first][adjacent.second].m_reachedSteps + field[point.first][point.second].m_weight;
+                    }
                 }
-                if(!field[point.first][point.second].m_visited)
-                {
-                    newIndices.push_back(point);
-                }
-            }        
+            }
         }
-
-        // std::cout<<"NEW: "<<newIndices.size()<<std::endl;
-        // for(const auto& point : newIndices)
-        // {
-        //     std::cout<<point.first<<":"<<point.second<<std::endl;
-        // }
-        indices = newIndices;
-        newIndices.clear();
+        if(currentX < field.GetColumns()-1)
+            currentX++;
+        else
+            currentY++;
     }
-    
-    std::cout<<field<<std::endl;
+
+    // std::cout<<field<<std::endl;
 
     std::cout<<"Min steps: "<<field[field.GetRows()-1][field.GetColumns()-1].m_reachedSteps<<std::endl;
 
