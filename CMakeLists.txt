@@ -4,3 +4,4 @@ project(AdventOfCode)
 
 add_subdirectory(Libs)
 add_subdirectory(2021)
+add_subdirectory(2022)
