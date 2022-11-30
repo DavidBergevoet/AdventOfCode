@@ -3,6 +3,10 @@ Advent of code solutions in CPP
 
 # Progress #
 
+<!--- advent_readme_stars table --->
+
+<!--- advent_readme_stars table --->
+
 ## 2021 Results
 
 | Day | Part 1 | Part 2 |
@@ -22,7 +26,3 @@ Advent of code solutions in CPP
 | [Day 13](https://adventofcode.com/2021/day/13) | ⭐ | ⭐ |
 | [Day 14](https://adventofcode.com/2021/day/14) | ⭐ | ⭐ |
 | [Day 15](https://adventofcode.com/2021/day/15) | ⭐ |   |
-
-<!--- advent_readme_stars table --->
-
-<!--- advent_readme_stars table --->
