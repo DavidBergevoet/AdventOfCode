@@ -1,16 +1,15 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "FileHandler.hpp"
 
 int main(int argc, char const *argv[])
 {
     std::string filePath = "input.txt";
+    std::vector<uint64_t> elves;
 
-    uint64_t highestElf = 0;
     uint64_t currentCalorie = 0;
-    uint64_t highestElfIndex = 1;
-    uint64_t currentIndex = 1;
 
     FileHandler file(filePath);
     if(file.IsOpen())
@@ -24,17 +23,19 @@ int main(int argc, char const *argv[])
                 currentCalorie += std::stoul(line);
             }else
             {
-                if(currentCalorie > highestElf)
-                {
-                    highestElf = currentCalorie;
-                    highestElfIndex = currentIndex;
-                }
+                elves.push_back(currentCalorie);
                 currentCalorie = 0;
-                currentIndex++;
             }
         }
+        elves.push_back(currentCalorie);
     }
+    std::sort(elves.begin(),elves.end());
+    uint64_t totalTopThree = 0;
+    for(size_t i = 0;i<3;++i){
+        std::cout<<elves[elves.size()-i-1]<<std::endl;
+        totalTopThree += elves[elves.size()-i-1];
+    }
+    std::cout<<"---------------\n"<<totalTopThree<<std::endl;
 
-    std::cout<<"Highest elf: "<<highestElfIndex<<" Calories: "<<highestElf<<std::endl;
     return 0;
 }
