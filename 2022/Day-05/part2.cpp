@@ -55,7 +55,7 @@ int main(int argc, char const *argv[])
                 }
                 std::cout<<"--------------"<<std::endl;
                 
-                for(int i = stacks[second].size()-1; i >= 0; --i)
+                for(int i = 0; i < stacks[second].size(); ++i)
                 {
                     std::cout<<i<<std::endl;
                     if(i >= stacks[second].size() - first)
