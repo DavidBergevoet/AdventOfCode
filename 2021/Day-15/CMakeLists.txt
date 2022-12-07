@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(AdventOfCode-2021-12)
+get_filename_component(day ${CMAKE_CURRENT_BINARY_DIR} NAME)
+get_filename_component(year_path ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY)
+get_filename_component(year ${year_path} NAME)
+
+project(AdventOfCode-${year}-${day}) 
 
 configure_file("input.txt" "input.txt" COPYONLY)
 

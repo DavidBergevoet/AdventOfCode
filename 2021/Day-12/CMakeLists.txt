@@ -1,17 +1,19 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(AdventOfCode-2021-11)
+get_filename_component(day ${CMAKE_CURRENT_BINARY_DIR} NAME)
+get_filename_component(year_path ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY)
+get_filename_component(year ${year_path} NAME)
+
+project(AdventOfCode-${year}-${day}) 
 
 configure_file("input.txt" "input.txt" COPYONLY)
 
 add_executable(${PROJECT_NAME}_Part1 
     part1.cpp
-    Octopus.cpp
 )
 
 add_executable(${PROJECT_NAME}_Part2
     part2.cpp
-    Octopus.cpp
 )
 
 target_link_libraries (${PROJECT_NAME}_Part1 LINK_PUBLIC FileHandler)
