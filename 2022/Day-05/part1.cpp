@@ -22,7 +22,6 @@ int main(int argc, char const *argv[])
                 {
                     if(line[index] == '[')
                     {
-                        std::cout<<"On index: "<<index<<" found character: "<<line[index+1]<<std::endl;
                         uint stackIndex = index / 4;
                         if(stacks.size() <= stackIndex)
                         {
@@ -41,43 +40,15 @@ int main(int argc, char const *argv[])
                 first = std::stoi(split[1]);
                 second = std::stoi(split[3])-1;
                 third = std::stoi(split[5])-1;
-
-                std::cout<<first<<" "<<second<<" "<<third<<std::endl;
-
-                std::cout<<"Stacks Before"<<std::endl;
-                for(auto i : stacks)
-                {
-                    for(auto j : i)
-                    {
-                        std::cout<<j<<"-";
-                    }
-                    std::cout<<std::endl;
-                }
-                std::cout<<"--------------"<<std::endl;
                 
                 for(int i = stacks[second].size()-1; i >= 0; --i)
                 {
-                    std::cout<<i<<std::endl;
                     if(i >= stacks[second].size() - first)
                     {
-                        std::cout<<"moving "<< stacks[second][i]<<std::endl;
                         stacks[third].push_back(stacks[second][i]);
                     }
                 }
                 stacks[second].erase(stacks[second].end()-first, stacks[second].end());
-
-                std::cout<<"-----------------"<<std::endl;
-                for(auto i : stacks)
-                {
-                    for(auto j : i)
-                    {
-
-                        std::cout<<j<<"-";
-
-                    }
-                    std::cout<<std::endl;
-                }
-                std::cout<<"-------- AFTER ------"<<std::endl;
             }
         }
         for(auto i : stacks)
