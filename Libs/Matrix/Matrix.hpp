@@ -27,6 +27,7 @@ public:
     // Array operators
     const std::vector<T>& operator[](size_t rowIndex) const;
     std::vector<T>& operator[](size_t rowIndex);
+    T& operator[](const Point_t& rPoint);
 
     // Getters
     size_t GetRows() const;
@@ -43,6 +44,8 @@ public:
     std::vector<Point_t> GetAdjacentPoints(const Point_t& rPoint, bool diagonal) const;
 
     std::vector<Point_t> GetDiagonalPoints(const Point_t& rBeginPoint, bool rightToLeft, bool downToUp) const;
+
+    std::vector<Point_t> GetOutsidePoints() const;
 
     std::string ToString() const;
 

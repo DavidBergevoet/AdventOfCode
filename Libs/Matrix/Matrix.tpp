@@ -82,6 +82,12 @@ std::vector<T>& Matrix<T>::operator[](size_t rowIndex)
 }
 
 template<typename T>
+T& Matrix<T>::operator[](const Point_t& rPoint)
+{
+    return m_matrix[rPoint.first][rPoint.second];
+}
+
+template<typename T>
 size_t Matrix<T>::GetRows() const
 {
     return m_rows;
@@ -280,4 +286,35 @@ std::vector<Point_t> Matrix<T>::GetDiagonalPoints(const Point_t& rBeginPoint, bo
         }
     }
     return diagonalPoints;
+}
+template<typename T>
+std::vector<Point_t> Matrix<T>::GetOutsidePoints() const
+{
+    std::vector<Point_t> returnPoints;
+
+    // Left side
+    for(size_t i = 0; i < GetRows(); ++i)
+    {
+        returnPoints.push_back(Point_t(i,0));
+    }
+
+    // Bottom
+    for(size_t i = 1; i < GetColumns(); ++i)
+    {
+        returnPoints.push_back(Point_t(GetRows() - 1,i));
+    }
+
+    // Right
+    for(int i = GetRows() - 2; i >= 0 ; --i)
+    {
+        returnPoints.push_back(Point_t(i,GetColumns() - 1));
+    }
+
+    // Top
+    for(size_t i = 1; i < GetColumns()-1; ++i)
+    {
+        returnPoints.push_back(Point_t(0, i));
+    }
+
+    return returnPoints;
 }
