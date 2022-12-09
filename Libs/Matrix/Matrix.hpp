@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 
-typedef std::pair<uint32_t, uint32_t> Point_t;
+typedef std::pair<int64_t, int64_t> Point_t;
 
 /*
  * NOTE:
