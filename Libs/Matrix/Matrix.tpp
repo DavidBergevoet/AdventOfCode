@@ -53,9 +53,9 @@ template<typename T>
 const T& Matrix<T>::At(size_t rowIndex, size_t columnIndex) const
 {
     if(rowIndex >= m_rows)
-        throw std::out_of_range("Row index out of range!");
+        throw std::out_of_range("Row index out of range! " + std::to_string(rowIndex));
     if(columnIndex >= m_columns)
-        throw std::out_of_range("Column index out of range!");
+        throw std::out_of_range("Column index out of range! " + std::to_string(columnIndex));
     return m_matrix[rowIndex][columnIndex];
 }
 
@@ -63,9 +63,9 @@ template<typename T>
 T& Matrix<T>::At(size_t rowIndex, size_t columnIndex)
 {
     if(rowIndex >= m_rows)
-        throw std::out_of_range("Row index out of range!");
+        throw std::out_of_range("Row index out of range! " + std::to_string(rowIndex));
     if(columnIndex >= m_columns)
-        throw std::out_of_range("Column index out of range!");
+        throw std::out_of_range("Column index out of range! " + std::to_string(columnIndex));
     return m_matrix[rowIndex][columnIndex];
 }
 

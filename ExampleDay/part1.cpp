@@ -10,8 +10,6 @@ int main(int argc, char const *argv[])
 
     FileHandler file(filePath);
 
-    AddTailPosition(currentTail);
-
     if (file.IsOpen())
     {
         // Read the file
