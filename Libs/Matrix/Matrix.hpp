@@ -47,6 +47,8 @@ public:
 
     std::vector<Point_t> GetOutsidePoints() const;
 
+    std::vector<Point_t> GetAllPoints()const;
+
     std::string ToString() const;
 
 private:

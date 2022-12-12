@@ -318,3 +318,17 @@ std::vector<Point_t> Matrix<T>::GetOutsidePoints() const
 
     return returnPoints;
 }
+
+template<typename T>
+std::vector<Point_t> Matrix<T>::GetAllPoints() const
+{
+    std::vector<Point_t> returnValue;
+    for(size_t row = 0; row < GetRows(); ++row)
+    {
+        for(size_t col = 0; col < GetColumns(); ++col)
+        {
+            returnValue.push_back(Point_t(row,col));
+        }
+    }
+    return returnValue;
+}
