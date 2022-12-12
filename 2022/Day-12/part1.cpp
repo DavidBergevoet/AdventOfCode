@@ -23,6 +23,9 @@ std::ostream& operator<<(std::ostream& rOs, const Node& rNode)
     rOs << rNode.m_height;
     if(rNode.m_steps != UINT32_MAX)
         rOs << '|' <<((rNode.m_steps < 10) ? "0" : "") << rNode.m_steps;
+    else
+        rOs <<"|--";
+    // rOs<<(rNode.m_visited) ? 1 : 0;
     return rOs;
 }
 
@@ -70,7 +73,6 @@ int main(int argc, char const *argv[])
 
     std::queue<Point_t> queue;
     queue.push(startPoint);
-    map[startPoint].m_visited = true;
 
     while(queue.size() > 0)
     {
@@ -81,17 +83,12 @@ int main(int argc, char const *argv[])
         for(const Point_t& rAdj : adjacent)
         {
             uint32_t newStep = map[firstPoint].m_steps + 1;
-            if(std::abs(map[rAdj].m_height - map[firstPoint].m_height) <= 1)
+            if(map[rAdj].m_height - map[firstPoint].m_height <= 1)
             {
-                if(newStep < map[rAdj].m_steps)
+                if(map[rAdj].m_steps > newStep)
                 {
                     map[rAdj].m_steps = newStep;
-                    map[rAdj].m_previousPoint = firstPoint;
-                }
-                if(!map[rAdj].m_visited)
-                {
                     queue.push(rAdj);
-                    map[rAdj].m_visited = true;
                 }
             }
         }
