@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
- extern crate example_lib;
+extern crate example_lib;
+extern crate file_handler;
 
 fn main() {
     // Get arguments
@@ -15,4 +16,14 @@ fn main() {
     println!("{}",contents);
 
     example_lib::lib_function();
+
+    let handler = file_handler::FileHandler::new("input.txt");
+
+    for line in &handler.file_content {
+        println!("Line: '{0}'", line)
+    }
+
+    for sub in &handler.get_line_split(1, ' ') {
+        println!("sub: '{}'", sub);
+    }
 }
