@@ -1,5 +1,11 @@
 build/
 .vscode/
+input.txt
 
 CMakeCache.txt
 CMakeFiles
+
+# Rust
+*.rlib
+*.lock
+target/

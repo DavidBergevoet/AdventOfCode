@@ -1,10 +1,12 @@
 # AdventOfCode #
-Advent of code solutions in CPP
+Advent of code solutions
 
 # Progress #
 
 <!--- advent_readme_stars table --->
-## 2022 Results
+<!--- advent_readme_stars table --->
+
+## 2022 Results (CPP)
 
 | Day | Part 1 | Part 2 |
 | :---: | :---: | :---: |
@@ -20,9 +22,8 @@ Advent of code solutions in CPP
 | [Day 10](https://adventofcode.com/2022/day/10) | ⭐ | ⭐ |
 | [Day 11](https://adventofcode.com/2022/day/11) | ⭐ | ⭐ |
 | [Day 12](https://adventofcode.com/2022/day/12) | ⭐ | ⭐ |
-<!--- advent_readme_stars table --->
 
-## 2021 Results
+## 2021 Results (CPP)
 
 | Day | Part 1 | Part 2 |
 | :---: | :---: | :---: |
