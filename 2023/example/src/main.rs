@@ -2,6 +2,7 @@ use std::env;
 use std::fs;
 extern crate example_lib;
 extern crate file_handler;
+extern crate matrix;
 
 fn main() {
     // Get arguments
@@ -25,5 +26,17 @@ fn main() {
 
     for sub in &handler.get_line_split(1, ' ') {
         println!("sub: '{}'", sub);
+    }
+
+    let mut mat = matrix::Matrix::new(2, 2, 0);
+
+    mat.print();
+    println!("Get 1,1 => {}", mat.get(1,1));
+    mat.set(1,1, 2);
+    println!("Get 1,1 => {}", mat.get(1,1));
+    mat.print();
+
+    for point in mat.get_adjacent_points(0, 0, true) {
+        println!("Adjacent {0},{1}", point.r, point.c);
     }
 }
