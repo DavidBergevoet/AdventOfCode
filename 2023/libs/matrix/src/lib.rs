@@ -127,6 +127,71 @@ impl<T: std::clone::Clone + std::fmt::Display> Matrix<T> {
         }
         result
     }
+
+    pub fn get_diagonal_points(&self, row: usize, col: usize, right_to_left: bool, down_to_up: bool) -> Vec<Point> {
+        assert!(row < self.rows && col < self.columns);
+        let mut result = Vec::new();
+        let mut current_row = row;
+        let mut current_col = col;
+
+        if right_to_left {
+            if down_to_up {
+                while current_row != 0 && current_col != 0 {
+                    current_row -= 1;
+                    current_col -= 1;
+                    result.push(Point{ r: current_row, c: current_col });
+                }
+            }
+            else {
+                while current_row != self.rows - 1 && current_col != 0 {
+                    current_row += 1;
+                    current_col -= 1;
+                    result.push(Point{ r: current_row, c: current_col });
+                }
+            }
+        }
+        else {
+            if down_to_up {
+                while current_row != 0 && current_col != self.columns - 1 {
+                    current_row -= 1;
+                    current_col += 1;
+                    result.push(Point{ r: current_row, c: current_col });
+                }
+            }else {
+                while current_row != self.rows - 1 && current_col != self.columns - 1 {
+                    current_row += 1;
+                    current_col += 1;
+                    result.push(Point{ r: current_row, c: current_col });
+                }
+            }
+        }
+        result
+    }
+
+    pub fn get_outside_points(&self) -> Vec<Point> {
+        let mut result = Vec::new();
+        // Left / Right
+        for i in 0..self.rows {
+            result.push(Point{ r: i, c: 0});
+            result.push(Point{ r: i, c: self.columns - 1});
+        }
+        // Bottom
+        for i in 0..self.columns {
+            result.push(Point{ r: 0, c: i});
+            result.push(Point{ r: self.rows - 1, c: i});
+        }
+        result
+    }
+
+    pub fn get_all_points(&self) -> Vec<Point> {
+        let mut result = Vec::new();
+        for row in 0..self.rows {
+            for col in 0..self.columns {
+                result.push(Point{ r: row, c: col });
+            }
+        } 
+        result
+    }
     // Private
 
 }

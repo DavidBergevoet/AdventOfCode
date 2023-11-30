@@ -28,7 +28,7 @@ fn main() {
         println!("sub: '{}'", sub);
     }
 
-    let mut mat = matrix::Matrix::new(2, 2, 0);
+    let mut mat = matrix::Matrix::new(3, 3, 0);
 
     mat.print();
     println!("Get 1,1 => {}", mat.get(1,1));
@@ -38,5 +38,17 @@ fn main() {
 
     for point in mat.get_adjacent_points(0, 0, true) {
         println!("Adjacent {0},{1}", point.r, point.c);
+    }
+
+    for point in mat.get_diagonal_points(0, 0, false, false) {
+        println!("Diagonal {0},{1}", point.r, point.c);
+    }
+
+    for point in mat.get_outside_points() {
+        println!("Outside {0},{1}", point.r, point.c);
+    }
+
+    for point in mat.get_all_points() {
+        println!("All {0},{1}", point.r, point.c);
     }
 }
