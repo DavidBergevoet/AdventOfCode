@@ -1,7 +1,7 @@
 name: Update README ⭐
 on:
   schedule:
-    - cron: "51 */1 * * *"  # Every hour
+    - cron: "0 */2 * 12 *" 
   workflow_dispatch:
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
-      - uses: k2bd/advent-readme-stars@v1
+      - uses: k2bd/advent-readme-stars@v1.0.3
         with:
           userId: 1553676
           sessionCookie: ${{ secrets.AOC_SESSION }}
