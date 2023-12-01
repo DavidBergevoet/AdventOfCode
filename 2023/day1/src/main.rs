@@ -50,7 +50,7 @@ fn part2(handler: file_handler::FileHandler) {
                         first_digit = *value;
                     }
                     last_digit = *value;
-                    my_string = String::from("");
+                    my_string = String::from(my_string.chars().last().unwrap());
                 }
             }
             if character.is_numeric() {
@@ -61,7 +61,7 @@ fn part2(handler: file_handler::FileHandler) {
             }
         }
         let combined_number = first_digit * 10 + last_digit;
-        // println!("Line '{0}', first {1}, last {2}, combined {3}", line, first_digit, last_digit, combined_number);
+        println!("Line '{0}'{1},{2},{3}", line, first_digit, last_digit, combined_number);
         digit_list.push(combined_number);
     }
     let sum: u32 = digit_list.iter().sum();

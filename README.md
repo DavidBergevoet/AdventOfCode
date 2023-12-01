@@ -4,7 +4,6 @@ Advent of code solutions
 # Progress #
 
 <!--- advent_readme_stars table --->
-<!--- advent_readme_stars table --->
 
 ## 2022 Results (CPP)
 
