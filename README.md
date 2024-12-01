@@ -6,6 +6,7 @@ Advent of code solutions
 <!--- advent_readme_stars table --->
 
 <!--- advent_readme_stars table --->
+
 ## 2023 Results
 
 | Day | Part 1 | Part 2 |
