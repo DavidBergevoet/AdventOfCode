@@ -6,7 +6,14 @@ get_filename_component(year ${year_path} NAME)
 
 project(AdventOfCode-${year}-${day}) 
 
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/input.txt)
+else()
+    file(TOUCH "input.txt")
+endif()
+
 configure_file("input.txt" "input.txt" COPYONLY)
+
+add_custom_target(InputFile SOURCES "input.txt")
 
 add_executable(${PROJECT_NAME}_Part1 part1.cpp)
 target_link_libraries (${PROJECT_NAME}_Part1 LINK_PUBLIC FileHandler)

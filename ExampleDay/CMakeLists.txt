@@ -6,6 +6,13 @@ get_filename_component(year ${year_path} NAME)
 
 project(AdventOfCode-${year}-${day}) 
 
+if(EXISTS "input.txt")
+    configure_file("input.txt" "input.txt" COPYONLY)
+else()
+    file(TOUCH "input.txt")
+endif()
+add_custom_target(InputFile SOURCES "input.txt")
+
 configure_file("input.txt" "input.txt" COPYONLY)
 
 add_executable(${PROJECT_NAME}_Part1 part1.cpp)
