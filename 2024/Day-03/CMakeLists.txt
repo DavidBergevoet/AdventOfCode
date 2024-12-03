@@ -9,9 +9,7 @@ project(AdventOfCode-${year}-${day})
 if(EXISTS "input.txt")
     configure_file("input.txt" "input.txt" COPYONLY)
 else()
-    file(TOUCH "input.txt")
 endif()
-
 add_custom_target(${PROJECT_NAME}_InputFile SOURCES "input.txt")
 
 configure_file("input.txt" "input.txt" COPYONLY)
