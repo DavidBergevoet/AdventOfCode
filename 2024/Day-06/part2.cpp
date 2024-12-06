@@ -12,14 +12,84 @@ enum class Direction_e
   LEFT = 3
 };
 
+std::vector<Point_t> part1(Point_t guard, const Matrix<bool>& rMap)
+{
+  std::vector<Point_t> path;
+  Direction_e dir = Direction_e::UP;
+  bool guardIsInside = true;
+  while (guardIsInside)
+  {
+    bool contains = false;
+    for (const Point_t& rPoint : path)
+    {
+      if (rPoint == guard)
+      {
+        contains = true;
+        break;
+      }
+    }
+    if (!contains)
+      path.push_back(guard);
+
+    switch (dir)
+    {
+    case Direction_e::UP:
+      guard.first--;
+      break;
+    case Direction_e::RIGHT:
+      guard.second++;
+      break;
+    case Direction_e::DOWN:
+      guard.first++;
+      break;
+    case Direction_e::LEFT:
+      guard.second--;
+      break;
+    }
+
+    for (const Point_t& rPoint : rMap.GetOutsidePoints())
+    {
+      if (rPoint.first == guard.first && rPoint.second == guard.second)
+      {
+        guardIsInside = false;
+        break;
+      }
+    }
+    if (!guardIsInside)
+      break;
+
+    switch (dir)
+    {
+    case Direction_e::UP:
+      if (rMap[guard.first - 1][guard.second])
+        dir = Direction_e::RIGHT;
+      break;
+    case Direction_e::RIGHT:
+      if (rMap[guard.first][guard.second + 1])
+        dir = Direction_e::DOWN;
+      break;
+    case Direction_e::DOWN:
+      if (rMap[guard.first + 1][guard.second])
+        dir = Direction_e::LEFT;
+      break;
+    case Direction_e::LEFT:
+      if (rMap[guard.first][guard.second - 1])
+        dir = Direction_e::UP;
+      break;
+    }
+  }
+  path.push_back(guard);
+  return path;
+}
+
 int main(int argc, char const* argv[])
 {
   std::string filePath = "input.txt";
 
   FileHandler file(filePath);
 
-  Matrix<bool> map, mapCopy;
-  Point_t guardy;
+  Matrix<bool> map;
+  Point_t originalGuard;
 
   if (file.IsOpen())
   {
@@ -35,7 +105,7 @@ int main(int argc, char const* argv[])
       {
         row.push_back(line[i] == '#');
         if (line[i] == '^')
-          guardy = MakePoint(map.GetRows() + 1, i);
+          originalGuard = MakePoint(map.GetRows() + 1, i);
       }
       map.AddRow(row);
     }
@@ -43,33 +113,45 @@ int main(int argc, char const* argv[])
 
   int obstacles = 0;
   int counter = 0;
-  for (const Point_t& rPoint : map.GetAllPoints())
+  std::vector<Point_t> part1Points = part1(originalGuard, map);
+
+  for (const Point_t& rPoint : part1Points)
   {
-    std::cout << "Count: " << counter++ << " of " << map.GetAllPoints().size() << std::endl;
+    std::cout << "Count: " << counter++ << " of " << part1Points.size() << '\t' << rPoint.first << ' ' << rPoint.second << std::endl;
+    if (map[rPoint.first][rPoint.second])
+      continue;
+    if (rPoint == originalGuard)
+      continue;
+
     Direction_e dir = Direction_e::UP;
-    Matrix<bool> mapCopy = map;
-    mapCopy[rPoint.first][rPoint.second] = true;
-    Point_t guardCopy = guardy;
+    map[rPoint.first][rPoint.second] = true;
+    std::vector<std::pair<Point_t, Direction_e>> obsHit;
+    Point_t guardCopy = originalGuard;
 
-    std::vector<std::pair<Point_t, Direction_e>> path;
-    bool guardIsInside = true;
-    bool guardLoop = false;
-
-    while (guardIsInside && !guardLoop)
+    // Turn guard
+    switch (dir)
     {
-      for (const std::pair<Point_t, Direction_e>& rPathPoint : path)
-      {
-        if (rPathPoint.first == guardCopy && rPathPoint.second == dir)
-        {
-          guardLoop = true;
-          obstacles++;
-          break;
-        }
-      }
-      path.push_back(std::make_pair(guardCopy, dir));
-      if (guardLoop)
-        break;
+    case Direction_e::UP:
+      if (map[guardCopy.first - 1][guardCopy.second])
+        dir = Direction_e::RIGHT;
+      break;
+    case Direction_e::RIGHT:
+      if (map[guardCopy.first][guardCopy.second + 1])
+        dir = Direction_e::DOWN;
+      break;
+    case Direction_e::DOWN:
+      if (map[guardCopy.first + 1][guardCopy.second])
+        dir = Direction_e::LEFT;
+      break;
+    case Direction_e::LEFT:
+      if (map[guardCopy.first][guardCopy.second - 1])
+        dir = Direction_e::UP;
+      break;
+    }
 
+    // Move guard
+    while (true)
+    {
       switch (dir)
       {
       case Direction_e::UP:
@@ -85,38 +167,9 @@ int main(int argc, char const* argv[])
         guardCopy.second--;
         break;
       }
-
-      for (const Point_t& rPoint : mapCopy.GetOutsidePoints())
-      {
-        if (rPoint.first == guardCopy.first && rPoint.second == guardCopy.second)
-        {
-          guardIsInside = false;
-          break;
-        }
-      }
-      if (guardIsInside)
-      {
-        switch (dir)
-        {
-        case Direction_e::UP:
-          if (mapCopy[guardCopy.first - 1][guardCopy.second])
-            dir = Direction_e::RIGHT;
-          break;
-        case Direction_e::RIGHT:
-          if (mapCopy[guardCopy.first][guardCopy.second + 1])
-            dir = Direction_e::DOWN;
-          break;
-        case Direction_e::DOWN:
-          if (mapCopy[guardCopy.first + 1][guardCopy.second])
-            dir = Direction_e::LEFT;
-          break;
-        case Direction_e::LEFT:
-          if (mapCopy[guardCopy.first][guardCopy.second - 1])
-            dir = Direction_e::UP;
-          break;
-        }
-      }
     }
+
+    map[rPoint.first][rPoint.second] = false;
   }
   std::cout << "obs: " << obstacles << std::endl;
   return 0;
