@@ -114,12 +114,11 @@ int main(int argc, char const* argv[])
   int obstacles = 0;
   int counter = 0;
   std::vector<Point_t> part1Points = part1(originalGuard, map);
-
   for (const Point_t& rPoint : part1Points)
   {
-    std::cout << "Count: " << counter++ << " of " << part1Points.size() << '\t' << rPoint.first << ' ' << rPoint.second << std::endl;
-    if (map[rPoint.first][rPoint.second])
-      continue;
+    std::cout << "Progess: " << (double)counter / ((double)part1Points.size() - 1) * 100 << "%\r" << std::flush;
+    counter++;
+
     if (rPoint == originalGuard)
       continue;
 
@@ -130,6 +129,11 @@ int main(int argc, char const* argv[])
 
     while (true)
     {
+      if (map[guardCopy.first][guardCopy.second])
+      {
+        std::cout << "\nQueh? " << guardCopy.first << ' ' << guardCopy.second << "\t\t" << rPoint.first << ' ' << rPoint.second << std::endl;
+        return 1;
+      }
       // Turn guard
       Point_t nextPos(0, 0);
       bool first = true;
@@ -146,6 +150,7 @@ int main(int argc, char const* argv[])
           {
             obHit = MakePoint(guardCopy.first - 1, guardCopy.second);
             dir = Direction_e::RIGHT;
+            nextPos = MakePoint(guardCopy.first, guardCopy.second + 1);
           }
           else
           {
@@ -192,13 +197,21 @@ int main(int argc, char const* argv[])
       }
       if (obHit.first != -1)
       {
+        bool secondHit = false;
         for (const auto& rObs : obsHit)
         {
           if (rObs.first == obHit && rObs.second == oldDir)
           {
-            looped = true;
-            obstacles++;
-            break;
+            if (secondHit)
+            {
+              looped = true;
+              obstacles++;
+              break;
+            }
+            else
+            {
+              secondHit = true;
+            }
           }
         }
         obsHit.push_back(std::make_pair(obHit, oldDir));
@@ -210,21 +223,7 @@ int main(int argc, char const* argv[])
       }
 
       // Move guard
-      switch (dir)
-      {
-      case Direction_e::UP:
-        guardCopy.first--;
-        break;
-      case Direction_e::RIGHT:
-        guardCopy.second++;
-        break;
-      case Direction_e::DOWN:
-        guardCopy.first++;
-        break;
-      case Direction_e::LEFT:
-        guardCopy.second--;
-        break;
-      }
+      guardCopy = nextPos;
 
       // Check if inside grid
       bool isInside = true;
@@ -244,6 +243,7 @@ int main(int argc, char const* argv[])
     }
     map[rPoint.first][rPoint.second] = false;
   }
-  std::cout << "obs: " << obstacles << std::endl;
+  std::cout << std::endl << "obs: " << obstacles << std::endl;
+
   return 0;
 }
