@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
 get_filename_component(day ${CMAKE_CURRENT_BINARY_DIR} NAME)
 get_filename_component(year_path ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY)
 get_filename_component(year ${year_path} NAME)
@@ -16,4 +20,4 @@ target_link_libraries (${PROJECT_NAME}_Part1 LINK_PUBLIC Matrix)
 
 add_executable(${PROJECT_NAME}_Part2 part2.cpp)
 target_link_libraries (${PROJECT_NAME}_Part2 LINK_PUBLIC FileHandler)
-target_link_libraries (${PROJECT_NAME}_Part2 LINK_PUBLIC Matrix)
+target_link_libraries (${PROJECT_NAME}_Part2 LINK_PUBLIC Matrix Threads::Threads)

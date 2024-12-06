@@ -1,8 +1,10 @@
+#include <future>
 #include <iostream>
 #include <vector>
 
 #include "FileHandler.hpp"
 #include "Matrix.hpp"
+#include <thread>
 
 enum class Direction_e
 {
@@ -11,6 +13,137 @@ enum class Direction_e
   DOWN = 2,
   LEFT = 3
 };
+
+Matrix<bool> map;
+Point_t originalGuard;
+int obstacles = 0;
+std::vector<std::thread> threadingList;
+std::atomic<int> completedThreads;
+
+void CheckPoint(Matrix<bool> map, Point_t rPoint)
+{
+  if (rPoint == originalGuard)
+  {
+    completedThreads++;
+    return;
+  }
+
+  Direction_e dir = Direction_e::UP;
+  map[rPoint.first][rPoint.second] = true;
+  std::vector<std::pair<Point_t, Direction_e>> obsHit;
+  Point_t guardCopy = originalGuard;
+
+  while (true)
+  {
+    // Turn guard
+    Point_t nextPos(0, 0);
+    bool first = true;
+    bool looped = false;
+    Point_t obHit = MakePoint(-1, -1);
+    Direction_e oldDir = dir;
+    while (map[nextPos.first][nextPos.second] || first)
+    {
+      first = false;
+      switch (dir)
+      {
+      case Direction_e::UP:
+        if (map[guardCopy.first - 1][guardCopy.second])
+        {
+          obHit = MakePoint(guardCopy.first - 1, guardCopy.second);
+          dir = Direction_e::RIGHT;
+          nextPos = MakePoint(guardCopy.first, guardCopy.second + 1);
+        }
+        else
+        {
+          nextPos = MakePoint(guardCopy.first - 1, guardCopy.second);
+        }
+        break;
+      case Direction_e::RIGHT:
+        if (map[guardCopy.first][guardCopy.second + 1])
+        {
+          obHit = MakePoint(guardCopy.first, guardCopy.second + 1);
+          dir = Direction_e::DOWN;
+          nextPos = MakePoint(guardCopy.first + 1, guardCopy.second);
+        }
+        else
+        {
+          nextPos = MakePoint(guardCopy.first, guardCopy.second + 1);
+        }
+        break;
+      case Direction_e::DOWN:
+        if (map[guardCopy.first + 1][guardCopy.second])
+        {
+          obHit = MakePoint(guardCopy.first + 1, guardCopy.second);
+          dir = Direction_e::LEFT;
+          nextPos = MakePoint(guardCopy.first, guardCopy.second - 1);
+        }
+        else
+        {
+          nextPos = MakePoint(guardCopy.first + 1, guardCopy.second);
+        }
+        break;
+      case Direction_e::LEFT:
+        if (map[guardCopy.first][guardCopy.second - 1])
+        {
+          obHit = MakePoint(guardCopy.first, guardCopy.second - 1);
+          dir = Direction_e::UP;
+          nextPos = MakePoint(guardCopy.first - 1, guardCopy.second);
+        }
+        else
+        {
+          nextPos = MakePoint(guardCopy.first, guardCopy.second - 1);
+        }
+        break;
+      }
+    }
+    if (obHit.first != -1)
+    {
+      bool secondHit = false;
+      for (const auto& rObs : obsHit)
+      {
+        if (rObs.first == obHit && rObs.second == oldDir)
+        {
+          if (secondHit)
+          {
+            looped = true;
+            obstacles++;
+            break;
+          }
+          else
+          {
+            secondHit = true;
+          }
+        }
+      }
+      obsHit.push_back(std::make_pair(obHit, oldDir));
+    }
+    if (looped)
+    {
+      // std::cout << "Loopie" << std::endl;
+      break;
+    }
+
+    // Move guard
+    guardCopy = nextPos;
+
+    // Check if inside grid
+    bool isInside = true;
+    for (const Point_t& rPoint : map.GetOutsidePoints())
+    {
+      if (rPoint.first == guardCopy.first && rPoint.second == guardCopy.second)
+      {
+        isInside = false;
+        break;
+      }
+    }
+    if (!isInside)
+    {
+      // std::cout << "Outside grid!" << guardCopy.first << ' ' << guardCopy.second << std::endl;
+      break;
+    }
+  }
+  completedThreads++;
+}
 
 std::vector<Point_t> part1(Point_t guard, const Matrix<bool>& rMap)
 {
@@ -88,9 +221,6 @@ int main(int argc, char const* argv[])
 
   FileHandler file(filePath);
 
-  Matrix<bool> map;
-  Point_t originalGuard;
-
   if (file.IsOpen())
   {
     // Read the file
@@ -111,138 +241,33 @@ int main(int argc, char const* argv[])
     }
   }
 
-  int obstacles = 0;
   int counter = 0;
   std::vector<Point_t> part1Points = part1(originalGuard, map);
+
+  threadingList.resize(part1Points.size());
+
   for (const Point_t& rPoint : part1Points)
   {
-    std::cout << "Progess: " << (double)counter / ((double)part1Points.size() - 1) * 100 << "%\r" << std::flush;
+    threadingList[counter] = std::thread(CheckPoint, map, rPoint);
+
     counter++;
-
-    if (rPoint == originalGuard)
-      continue;
-
-    Direction_e dir = Direction_e::UP;
-    map[rPoint.first][rPoint.second] = true;
-    std::vector<std::pair<Point_t, Direction_e>> obsHit;
-    Point_t guardCopy = originalGuard;
-
-    while (true)
-    {
-      if (map[guardCopy.first][guardCopy.second])
-      {
-        std::cout << "\nQueh? " << guardCopy.first << ' ' << guardCopy.second << "\t\t" << rPoint.first << ' ' << rPoint.second << std::endl;
-        return 1;
-      }
-      // Turn guard
-      Point_t nextPos(0, 0);
-      bool first = true;
-      bool looped = false;
-      Point_t obHit = MakePoint(-1, -1);
-      Direction_e oldDir = dir;
-      while (map[nextPos.first][nextPos.second] || first)
-      {
-        first = false;
-        switch (dir)
-        {
-        case Direction_e::UP:
-          if (map[guardCopy.first - 1][guardCopy.second])
-          {
-            obHit = MakePoint(guardCopy.first - 1, guardCopy.second);
-            dir = Direction_e::RIGHT;
-            nextPos = MakePoint(guardCopy.first, guardCopy.second + 1);
-          }
-          else
-          {
-            nextPos = MakePoint(guardCopy.first - 1, guardCopy.second);
-          }
-          break;
-        case Direction_e::RIGHT:
-          if (map[guardCopy.first][guardCopy.second + 1])
-          {
-            obHit = MakePoint(guardCopy.first, guardCopy.second + 1);
-            dir = Direction_e::DOWN;
-            nextPos = MakePoint(guardCopy.first + 1, guardCopy.second);
-          }
-          else
-          {
-            nextPos = MakePoint(guardCopy.first, guardCopy.second + 1);
-          }
-          break;
-        case Direction_e::DOWN:
-          if (map[guardCopy.first + 1][guardCopy.second])
-          {
-            obHit = MakePoint(guardCopy.first + 1, guardCopy.second);
-            dir = Direction_e::LEFT;
-            nextPos = MakePoint(guardCopy.first, guardCopy.second - 1);
-          }
-          else
-          {
-            nextPos = MakePoint(guardCopy.first + 1, guardCopy.second);
-          }
-          break;
-        case Direction_e::LEFT:
-          if (map[guardCopy.first][guardCopy.second - 1])
-          {
-            obHit = MakePoint(guardCopy.first, guardCopy.second - 1);
-            dir = Direction_e::UP;
-            nextPos = MakePoint(guardCopy.first - 1, guardCopy.second);
-          }
-          else
-          {
-            nextPos = MakePoint(guardCopy.first, guardCopy.second - 1);
-          }
-          break;
-        }
-      }
-      if (obHit.first != -1)
-      {
-        bool secondHit = false;
-        for (const auto& rObs : obsHit)
-        {
-          if (rObs.first == obHit && rObs.second == oldDir)
-          {
-            if (secondHit)
-            {
-              looped = true;
-              obstacles++;
-              break;
-            }
-            else
-            {
-              secondHit = true;
-            }
-          }
-        }
-        obsHit.push_back(std::make_pair(obHit, oldDir));
-      }
-      if (looped)
-      {
-        // std::cout << "Loopie" << std::endl;
-        break;
-      }
-
-      // Move guard
-      guardCopy = nextPos;
-
-      // Check if inside grid
-      bool isInside = true;
-      for (const Point_t& rPoint : map.GetOutsidePoints())
-      {
-        if (rPoint.first == guardCopy.first && rPoint.second == guardCopy.second)
-        {
-          isInside = false;
-          break;
-        }
-      }
-      if (!isInside)
-      {
-        // std::cout << "Outside grid!" << guardCopy.first << ' ' << guardCopy.second << std::endl;
-        break;
-      }
-    }
-    map[rPoint.first][rPoint.second] = false;
   }
+
+  while (completedThreads <= threadingList.size() - 1)
+  {
+    // Calculate and display progress
+    double progress = (double)completedThreads / (double)(threadingList.size() - 1) * 100.0;
+    std::cout << "Progress: " << progress << " % " << completedThreads << "\r" << std::flush;
+
+    // Sleep for a short duration to avoid excessive console updates
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+  }
+
+  for (auto& rT : threadingList)
+  {
+    rT.join();
+  }
+
   std::cout << std::endl << "obs: " << obstacles << std::endl;
 
   return 0;
