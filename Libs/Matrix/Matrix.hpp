@@ -6,6 +6,7 @@
 #include <vector>
 
 typedef std::pair<int64_t, int64_t> Point_t;
+#define MakePoint(x,y) std::make_pair(x,y)
 
 /*
  * NOTE:
