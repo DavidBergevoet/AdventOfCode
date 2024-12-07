@@ -8,9 +8,9 @@ enum class Operator_e
 {
   MINUS,
   DIVIDE,
-  CONCATENATION
+  SPLIT
 };
-const std::vector<Operator_e> OPERATORS{Operator_e::MINUS, Operator_e::DIVIDE, Operator_e::CONCATENATION};
+const std::vector<Operator_e> OPERATORS{Operator_e::MINUS, Operator_e::DIVIDE, Operator_e::SPLIT};
 
 int main(int argc, char const* argv[])
 {
@@ -67,7 +67,7 @@ int main(int argc, char const* argv[])
             if (rNumber.second[i] < c)
               result = c - rNumber.second[i];
             break;
-          case Operator_e::CONCATENATION:
+          case Operator_e::SPLIT:
             std::string rhs = std::to_string(rNumber.second[i]);
             std::string lhs = std::to_string(rNumber.second[i - 1]);
             std::string calcString = std::to_string(c);
