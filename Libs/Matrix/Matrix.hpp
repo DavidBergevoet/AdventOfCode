@@ -39,6 +39,7 @@ public:
 
     // Other functions
     void Resize(size_t rows, size_t columns);
+    void Fill(const T& rValue);
 
     bool AddRow(const std::vector<T>& rNewRow);
 
@@ -51,6 +52,7 @@ public:
     std::vector<Point_t> GetAllPoints()const;
 
     std::string ToString() const;
+    std::string ToCleanString() const; // Same as ToString but not formatted
 
 private:
     size_t m_rows;

@@ -32,6 +32,22 @@ std::string Matrix<T>::ToString() const
 }
 
 template<typename T>
+std::string Matrix<T>::ToCleanString() const
+{
+  std::stringstream ss;
+  ss << "Matrix<" << m_rows << ", " << m_columns << ">\n";
+  for(size_t row = 0; row < m_rows; ++row)
+  {
+    for(size_t column = 0; column < m_columns; ++ column)
+    {
+      ss << m_matrix[row][column];
+    }
+    ss << "\n";
+  }
+  return ss.str();
+}
+
+template<typename T>
 const std::vector<T>& Matrix<T>::At(size_t rowIndex) const
 {
     if(rowIndex >= m_rows)
@@ -120,6 +136,17 @@ void Matrix<T>::Resize(size_t rows, size_t columns)
     }
     m_rows = rows;
     m_columns = columns;
+}
+template<typename T>
+void Matrix<T>::Fill(const T& rValue)
+{
+  for(size_t row = 0; row < m_rows; ++row)
+  {
+    for(size_t col = 0; col < m_columns; ++col)
+    {
+      m_matrix[row][col] = rValue;
+    }
+  }
 }
 
 template<typename T>
