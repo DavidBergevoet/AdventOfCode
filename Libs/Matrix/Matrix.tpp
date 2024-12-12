@@ -165,32 +165,25 @@ template<typename T>
 std::vector<Point_t> Matrix<T>::GetAdjacentPoints(const Point_t& rPoint, bool diagonal) const
 {
     std::vector<Point_t> adjacent;
+    if(diagonal)
+        adjacent = GetAdjacentDiagonalPoints(rPoint);
     if(rPoint.first == 0)
     {
         if(rPoint.second == 0)
         {
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second + 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 0));
-            if(diagonal)
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
         }
         else if(rPoint.second == GetColumns()-1)
         {
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second - 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 0));
-            if(diagonal)
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
         }
         else
         {
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second - 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second + 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 0));
-            if(diagonal)
-            {
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
-            }
         }
     }
     else if (rPoint.first == GetRows()-1)
@@ -199,26 +192,17 @@ std::vector<Point_t> Matrix<T>::GetAdjacentPoints(const Point_t& rPoint, bool di
         {
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 0));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second + 1));
-            if(diagonal)
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
         }
         else if(rPoint.second == GetColumns()-1)
         {
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 0));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second - 1));
-            if(diagonal)
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
         }
         else
         {
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second - 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second + 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 0));
-            if(diagonal)
-            {
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
-            }
         }
     }else
     {
@@ -227,22 +211,12 @@ std::vector<Point_t> Matrix<T>::GetAdjacentPoints(const Point_t& rPoint, bool di
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 0));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second + 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 0));
-            if(diagonal)
-            {
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
-            }
         }
         else if(rPoint.second == GetColumns()-1)
         {
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 0));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 0));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second - 1));
-            if(diagonal)
-            {
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
-            }
         }
         else
         {
@@ -250,15 +224,68 @@ std::vector<Point_t> Matrix<T>::GetAdjacentPoints(const Point_t& rPoint, bool di
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second + 1));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 0));
             adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 0, rPoint.second - 1));
-            if(diagonal)
-            {
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
-                adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
-            }
         }
     }
+    return adjacent;
+}
+
+template<typename T>
+std::vector<Point_t> Matrix<T>::GetAdjacentDiagonalPoints(const Point_t& rPoint) const
+{
+    std::vector<Point_t> adjacent;
+    if(rPoint.first == 0)
+    {
+        if(rPoint.second == 0)
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
+        }
+        else if(rPoint.second == GetColumns()-1)
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
+        }
+        else
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
+        }
+    }
+    else if (rPoint.first == GetRows()-1)
+    {
+        if(rPoint.second == 0)
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
+        }
+        else if(rPoint.second == GetColumns()-1)
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
+        }
+        else
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
+        }
+    }
+    else
+    {
+        if(rPoint.second == 0)
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
+        }
+        else if(rPoint.second == GetColumns()-1)
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
+        }
+        else
+        {
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second - 1)); //D
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first + 1, rPoint.second + 1)); //D
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second - 1)); //D
+            adjacent.push_back(std::make_pair<uint32_t, uint32_t>(rPoint.first - 1, rPoint.second + 1)); //D
+        }
+    }
+
     return adjacent;
 }
 

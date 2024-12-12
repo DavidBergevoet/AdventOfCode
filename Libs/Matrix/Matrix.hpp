@@ -45,6 +45,8 @@ public:
 
     std::vector<Point_t> GetAdjacentPoints(const Point_t& rPoint, bool diagonal) const;
 
+    std::vector<Point_t> GetAdjacentDiagonalPoints(const Point_t& rPoint) const;
+
     std::vector<Point_t> GetDiagonalPoints(const Point_t& rBeginPoint, bool rightToLeft, bool downToUp) const;
 
     std::vector<Point_t> GetOutsidePoints() const;
