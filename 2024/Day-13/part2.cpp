@@ -59,8 +59,8 @@ int main(int argc, char const* argv[])
       }
       else if (line.size() == 3) // Prize
       {
-        tempClawMachine.destX = std::stoull(line[1].substr(2)) + 10000000000000;
-        tempClawMachine.destY = std::stoull(line[2].substr(2)) + 10000000000000;
+        tempClawMachine.destX = std::stoull(line[1].substr(2));
+        tempClawMachine.destY = std::stoull(line[2].substr(2));
         machines.push_back(tempClawMachine);
       }
     }
@@ -78,8 +78,6 @@ int main(int argc, char const* argv[])
     uint64_t aPresses = 0;
     while (restValueX >= 0 && restValueY >= 0)
     {
-      if (aPresses % 10000000 == 0)
-        std::cout << restValueX << ' ' << restValueY << std::endl;
       if (restValueX % machines[i].bX == 0 && restValueY % machines[i].bY == 0 && restValueX / machines[i].bX == restValueY / machines[i].bY)
       {
         aPressValues.push_back(PossibleOutcome_t{aPresses, (uint64_t)restValueX, (uint64_t)restValueY});

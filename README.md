@@ -4,6 +4,9 @@ Advent of code solutions
 # Progress #
 
 <!--- advent_readme_stars table --->
+
+<!--- advent_readme_stars table --->
+
 ## 2024 Results
 
 | Day | Part 1 | Part 2 |
@@ -21,7 +24,6 @@ Advent of code solutions
 | [Day 11](https://adventofcode.com/2024/day/11) | ⭐ | ⭐ |
 | [Day 12](https://adventofcode.com/2024/day/12) | ⭐ | ⭐ |
 | [Day 13](https://adventofcode.com/2024/day/13) | ⭐ |   |
-<!--- advent_readme_stars table --->
 
 ## 2023 Results
 
