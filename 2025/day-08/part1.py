@@ -64,7 +64,6 @@ def connected(a, b):
 counter = 0
 for p in pairs:
 	counter += 1
-	print(f"\rProgress: {counter}", end="", flush=True) 
 	if counter >= 1000:
 		break
 	if not connected(p[0], p[1]):	

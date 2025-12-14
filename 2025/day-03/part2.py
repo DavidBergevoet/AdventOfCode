@@ -27,7 +27,7 @@ for line in lines:
 		value_to_add += line[i]
 	value_to_add = int(value_to_add)
 
-	print(f"Adding {value_to_add}")
+	# print(f"Adding {value_to_add}")
 	joltage += value_to_add
 
 print(f"Final joltage {joltage}")
